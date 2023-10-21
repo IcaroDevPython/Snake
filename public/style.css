@@ -1,1 +1,20 @@
+* {
+    padding: 0;
+    margin: 0;
+    box-sizing: border-box;
+}
 
+body {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: #02436e;
+    height: 100vh;
+}
+
+canvas {
+    background-color: #13f9f53c;
+    width: 80%;
+    aspect-ratio: 1/1;
+    image-rendering: pixelated;
+}
