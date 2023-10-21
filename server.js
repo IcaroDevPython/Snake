@@ -17,12 +17,9 @@ sockets.on('connection', (socket) => {
     socket.emit('setup', gameServer.gameState)
     console.log(`> Player connected: ${playerId}`)
 
-    socket.on('state', () => {
-      socket.emit('setup', gameServer.gameState)
-    })
-
     socket.on('setPos', (direction) => {
       gameServer.movePlayer(socket.id, direction)
+      sockets.sockets.emit('setState', gameServer.gameState)
     })
 
     socket.on('disconnect', () => {
