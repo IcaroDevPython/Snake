@@ -2,13 +2,12 @@ export default function init() {
   const canvas = document.getElementById("cvs")
   const ctx = canvas.getContext('2d')
   const socket = io()
-  let wh = null
   let direction = null
 
   let gameState = null
 
   function drawPlayers(id) {
-    ctx.clearRect(0, 0, wh, wh)
+    ctx.clearRect(0, 0, gameState.canvas.wh, gameState.canvas.wh)
     for (const playerId in gameState.players){
         ctx.fillStyle = "#fff"
         if (playerId == id) {
@@ -55,22 +54,25 @@ export default function init() {
       gameState = state
       canvas.width = gameState.canvas.wh
       canvas.height = gameState.canvas.wh
-    })
-    socket.on('connect', () => {
-      console.log(socket.id)
-      touchMove()
-      keyBoardMove()
-      //setTimeout(() => {
+
       setInterval(() => {
         drawPlayers(socket.id)
         socket.emit('setPos', direction)
-        socket.emit('state')
       }, 250)
-      //}, 1000)
+    })
+    
+    socket.on('connect', () => {
+      touchMove()
+      keyBoardMove()
+    })
+
+    socket.on('setState', (state) => {
+      gameState = state
+      //socket.emit('setPos', direction)
     })
   }
   
   return {
     setup
   }
-                        }
+}
